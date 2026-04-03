@@ -1,0 +1,116 @@
+<div class="split-container">
+  <div class="side left-side">
+    <div class="form-card">
+      <h2>New Assignment Details</h2>
+
+      <div class="input-group">
+        <div class="input-group">
+        <div class="input-group">
+          <label for="userSelect">User</label>
+          <div class="select-wrapper">
+            <select id="userSelect" [(ngModel)]="selecteduserno" (change)="onUserChange()">
+              <option value="" disabled selected>Select a user...</option>
+              @for (user of userdrops; track user.id) {
+                <option [value]="user.tag">{{ user.username }} ({{ user.tag }})</option>
+              }
+            </select>
+            <span class="select-arrow"></span>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="lineSelect">Line</label>
+          <div class="select-wrapper">
+            <select id="lineSelect" [(ngModel)]="selectedlineno" (change)="onLineChange()">
+              <option value="" disabled selected>Select a line...</option>
+              @for (line of linedrops; track line.id) {
+                <option [value]="line.linename">{{ line.linename }} ({{ line.lineno }})</option>
+              }
+            </select>
+            <span class="select-arrow"></span>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="input-group">
+        <label>From Datez</label>
+        <input type="date" [(ngModel)]="fromdate">
+        <button class="submit-btn" (click)="resetdate('from')" class="reset-link">Reset</button>
+      </div>
+
+      <div class="input-group">
+        <label>To Date</label>
+        <input type="date" [(ngModel)]="todate">
+       <button class="submit-btn" (click)="resetdate('to')" class="reset-link">Reset</button>
+      </div>
+
+      <button class="submit-btn" (click)="saveAssignment()">
+        <span>Save Assignment</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="side right-side">
+    <div class="preview-card">
+      <h3>Existing Assignments</h3>
+    <div class="select-wrapper">
+            <select id="userSelect" [(ngModel)]="selectedusernosearch" (change)="onUserChange()">
+              <option value="" disabled selected>Select a user...</option>
+              @for (user of userdrops; track user.id) {
+                <option [value]="user.tag">{{ user.username }} ({{ user.tag }})</option>
+              }
+            </select>
+            <span class="select-arrow"></span>
+          </div>
+          <br/><br/>
+
+      <button class="submit-btn" (click)="getAssignments()">
+        <span>Get User Assignments</span>
+      </button>
+
+      <!-- <button class="submit-btn" (click)="getAllAssignments()">
+        <span>Get All Assignments</span>
+      </button> -->
+      
+      <br/><br/>
+       <div class="input-group">
+        <label>Calculate From Date</label>
+        <input type="date" [(ngModel)]="modifyfromdate" (change)="modifycalculations()">
+      </div>
+      <div class="group-search">
+        @for (assignmentuser of assignmentusers; track assignmentuser.userno) {
+          <div class="table-wrapper">
+            <p><strong>User:</strong> {{ assignmentuser.userno }}</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Line</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Period</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of assignmentuser.assignments; track item.id) {
+                  <tr>
+                    <td><span class="user-badge">{{ item.lineno }}</span></td>
+                    <td class="date-cell">{{ item.fromDate }}</td>
+                    <td class="date-cell">{{ item.toDate }}</td>
+                    <td class="date-cell"><span class="user-badge bold">{{ item.tp }} Weeks</span></td>
+                    <td class="date-cell">
+                      <button class="submit-btn" (click)="deleteAssignment(item.userno, item.lineno)">Delete</button>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr><td colspan="5" class="empty-state">No assignments found.</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @empty {
+          <p class="empty-state">No assignments found.</p>
+        }
+      </div>
+    </div>
+  </div>
+</div>

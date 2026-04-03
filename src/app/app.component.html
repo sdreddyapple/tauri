@@ -1,0 +1,55 @@
+<div class="app-shell">
+  <aside class="main-sidebar">
+    <div class="sidebar-top">
+      <div class="app-logo">
+        <span class="logo-circle">S</span>
+        <div class="logo-text">
+          <h1>SDREDDY</h1>
+          <p>And Co</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav-list">
+      <a routerLink="/home" routerLinkActive="active-link" class="nav-item">
+        <span class="nav-label">Home</span>
+      </a>
+
+      <a routerLink="/user" routerLinkActive="active-link" class="nav-item">
+        <span class="nav-label">User Accounts</span>
+      </a>
+
+      <a routerLink="/line" routerLinkActive="active-link" class="nav-item">
+        <span class="nav-label">Line Manager</span>
+      </a>
+
+      <a routerLink="/assign" routerLinkActive="active-link" class="nav-item">
+        <span class="nav-label">Assignment Manager</span>
+      </a>
+
+      <div class="nav-divider"></div>
+
+      <a (click)="closeWindow()" 
+      class="nav-item secondary" 
+      style="cursor: pointer;">
+      <span class="nav-label">Close</span>
+    </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="user-profile">
+        <div class="avatar-sm">AD</div>
+        <div class="profile-info">
+          <span class="profile-name">Admin User</span>
+          <span class="profile-role">Local DB</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-viewport">
+    <div class="page-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
