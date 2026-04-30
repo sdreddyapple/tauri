@@ -1,0 +1,82 @@
+<div class="split-container">
+  <div class="side left-side">
+  <div class="form-card">
+    <h2>Create Account</h2>
+    <p class="subtitle">Enter user details</p>
+
+    <div class="input-group">
+      <label for="tag">User Number</label>
+      <input type="text" id="tag" [(ngModel)]="tag" placeholder="e.g. sdreddy">
+    </div>
+    
+    <div class="input-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" [(ngModel)]="username" placeholder="e.g. Satya Reddy">
+    </div>
+
+    
+
+    <button class="submit-btn" (click)="saveUser()">
+      Save User
+    </button>
+  </div>
+  </div>
+  <div class="side right-side">
+    <div class="preview-card">
+      <h3>User Search</h3>
+    <div class="input-group">
+        <label>User Search</label>
+        <input type="text"  [(ngModel)]="searchuserid"  placeholder="e.g. 101">
+      </div>
+      <button class="submit-btn" (click)="searchUser()">
+        Search User
+      </button>
+      <br/><br/>
+      <div class="group-search">
+      @for (searchuser of searchusers; track searchuser.id) {
+        <div class="user-card">
+          <div class="info-section">
+            <div class="header">
+              <span class="username">{{ searchuser.username }}</span>
+              <span class="badge">ID: {{ searchuser.tag }}</span>
+              <div class="card-actions">
+                <button class="delete-btn" (click)="deleteUser(searchuser.id, searchuser.username)" title="Delete User and Assignments">
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+            <div class="details">
+              <p class="section-title">Active Assignments</p>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Line</th>
+                      <th>From</th>
+                      <th>To</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (line of searchuser.lines; track line.id) {
+                      <tr>
+                        <td><span class="line-badge">{{ line.lineno }}</span></td>
+                        <td>{{ line.fromDate }}</td>
+                        <td>{{ line.toDate }}</td>
+                      </tr>
+                    } @empty {
+                      <tr>
+                        <td colspan="3" class="empty-state">No lines assigned.</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <p class="empty-state">No users found in offline database.</p>
+      }
+    </div>
+</div>

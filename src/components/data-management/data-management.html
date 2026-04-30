@@ -1,0 +1,43 @@
+<div class="split-container">
+  <div class="side left-side">
+    <div class="form-card">
+      <h2>Data Management</h2>
+                    <button 
+                        class="submit-btn" (click)="export()">
+                        Export As 
+                    </button>
+                    <br/>
+                    <button 
+                        class="submit-btn" (click)="importDB()">
+                        Import DB
+                    </button>
+                    <br/>
+                    <button 
+                        class="submit-btn" (click)="showdeleteList()">
+                        Delete Data Table
+                    </button>
+
+                    @if(showTableSelector) {
+                        <div class="show-table-panel">
+                            Select Table to Clear 
+                            <select [(ngModel)]="selectedTable" (ngModelChange)="randomGenerate()">
+                                <option value="" disabled selected>Select a table...</option>
+                                @for (table of existingTables; track table) {
+                                    <option>{{ table }}</option>
+                                }
+                            </select>
+                            @if (selectedTable!="") {
+                            <div>
+                                <span>Enter Table Name and Value {{random2Digit}} like {{selectedTable}}_{{random2Digit}} to delete</span>
+                                <div class="input-group">
+                                    <input type="text" id="username" [(ngModel)]="delvalue" placeholder="{{selectedTable}}_{{random2Digit}}">
+                                </div>
+                                <button class="submit-btn" (click)="deleteTable()">Delete</button>
+                            </div>
+                            }
+                        </div>
+                    }
+      
+    </div>
+  </div>
+</div>

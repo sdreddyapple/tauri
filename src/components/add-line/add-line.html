@@ -1,0 +1,83 @@
+<div class="split-container">
+  <div class="side left-side">
+    <div class="form-card">
+      <h2>Line Details</h2>
+      <p class="subtitle">Enter Line details</p>
+
+      <div class="input-group">
+        <label for="tag">Line No</label>
+        <input type="text" id="tag" [(ngModel)]="lineno" placeholder="e.g. 25">
+      </div>
+
+      <div class="input-group">
+        <label for="username">Line Name</label>
+        <input type="text" id="username" [(ngModel)]="linename" placeholder="e.g. Vijayawada Line">
+      </div>
+
+      
+
+        <div class="input-group">
+          <label>Active Days</label>
+          <div class="days-row">
+              @for (day of days; track day.name) {
+              <div 
+                  class="day-pill" 
+                  [class.active]="day.selected" (click)="toggleDay(day)">
+                  {{ day.name }}
+              </div>
+              }
+          </div>
+          </div>
+      <button class="submit-btn" (click)="saveLine()" >
+        Save Line
+      </button>
+  </div>
+
+  </div>
+  <div class="side right-side">
+    <div class="preview-card">
+      <p class="subtitle">Select Line </p>
+
+      <div class="input-group">
+        <label for="username">Line No</label>
+        <input type="text" id="username" [(ngModel)]="selectedlineno" placeholder="e.g. Vijayawada Line">
+      </div>
+      <button class="submit-btn" (click)="searchLine()">
+        Search Line
+      </button>
+      <br/><br/>
+      <div class="group-search">
+      @for (line of searchlines; track line.id) {
+        <div class="user-card">
+          <div class="info-section">
+            <div class="header">
+              <span class="name">{{ line.linename }}</span>
+              <span class="badge">ID: {{ line.lineno }}</span>
+              <div class="card-actions">
+                <button class="delete-btn" (click)="deleteLine(line.id, line.linename)" title="Delete User and Assignments">
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+            <div class="details">
+              <p class="section-title">Active Days</p>
+              <div class="days-row">
+              @for (day of line.days; track day.name;let i = $index) {
+                  <div 
+                      class="day-pill" 
+                      [class.active]="day">
+                      {{days[i].name}}
+                  </div>
+                  }
+              </div>
+  
+              </div>
+          </div>
+        </div>
+      } @empty {
+        <p class="empty-state">No lines found in offline database.</p>
+      }
+    </div>
+    </div>
+  </div>

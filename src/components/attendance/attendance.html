@@ -1,0 +1,194 @@
+<div class="split-container">
+  <div class="side left-side">
+    <div class="form-card">
+      <h2>New Assignment Details</h2>
+
+      <div class="input-group">
+        <label for="userSelect">User</label>
+        <div class="select-wrapper">
+          <select id="userSelect" [(ngModel)]="selecteduserno" (change)="onUserChange()">
+            <option value="" disabled selected>Select a user...</option>
+            @for (user of userdrops; track user.id) {
+              <option [value]="user.tag">{{ user.username }} ({{ user.tag }})</option>
+            }
+          </select>
+          <span class="select-arrow"></span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="lineSelect">Line</label>
+        <div class="select-wrapper">
+          <select id="lineSelect" [(ngModel)]="selectedlineno" (change)="onLineChange()">
+            <option value="" disabled selected>Select a line...</option>
+            @for (line of linedrops; track line.id) {
+              <option [value]="line.lineno">{{ line.linename }} ({{ line.lineno }})</option>
+            }
+          </select>
+          <span class="select-arrow"></span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Select Date</label>
+        <div class="date-input-wrapper">
+          <input type="date" [(ngModel)]="entryDate">
+          <button type="button" (click)="resetdate('from')" class="reset-link">Reset</button>
+        </div>
+      </div>
+
+      <button class="submit-btn" (click)="processInputs()">
+        <span>Process</span>
+      </button>
+      <button class="submit-btn" (click)="showData()">
+        <span>Show Data</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="side right-side">
+    <div class="preview-card" *ngIf="currscreen=='entry'">
+      <h3>Attendance Entry Sheet</h3>
+        <table>
+            <tr>
+                <td>User</td><td>{{selecteduserno}} -{{selectedusername}}</td>
+            </tr>
+            <tr>
+                <td>Line</td><td>{{selectedlineno}}</td>
+            </tr>
+            <tr>
+                <td>Date</td><td>{{entryDate}}</td>
+            </tr>
+        </table>
+        <hr class="divider">
+        @if (isSaving) {
+            <div class="spinner-container">
+            <div class="loading-spinner"></div>
+            <p>Syncing with Database...</p>
+            </div>
+        }
+        <div [class.dimmed]="isSaving">
+        <table *ngFor="let attendance of attendances">
+           <tr>
+                <td [class.bluetext]="attendance.enabled" [class.disabled-text]="!attendance.enabled">
+                    {{ attendance.date }} - {{attendance.day}}
+                </td>
+                <td>
+                    <button 
+                        class="process-btn status-btn present" 
+                        [class.active]="attendance.status === 'PRESENT'" 
+                        [disabled]="!attendance.enabled"
+                        (click)="markAttendance(attendance, 'PRESENT')">
+                        Present
+                        
+                    </button>
+
+                    <button 
+                        class="process-btn status-btn absent" 
+                        [class.active]="attendance.status === 'ABSENT'" 
+                        [disabled]="!attendance.enabled"
+                        (click)="markAttendance(attendance, 'ABSENT')">
+                        Absent
+                    </button>
+
+                    <button 
+                        class="process-btn status-btn no-entry" 
+                        [class.active]="attendance.status === 'NO ENTRY'" 
+                        [disabled]="!attendance.enabled"
+                        (click)="markAttendance(attendance, 'NO ENTRY')">
+                        No Entry
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <button class="submit-btn"  (click)=".()">Save</button>
+        </div>
+      </div>
+    <div class="preview-card" *ngIf="currscreen=='view'">
+      <h3>Attendance Sheet</h3>
+        <table>
+            <tr>
+                <td>User</td><td>{{selecteduserno}} -{{selectedusername}}</td>
+            </tr>
+            <tr>
+                <td>Line</td><td>{{selectedlineno}}</td>
+            </tr>
+            <tr>
+                <td>Date</td><td>{{formatForDisplay(viewDate)}}</td>
+            </tr>
+        </table>
+        <hr class="divider">
+        <div class="input-group">
+        <label>Select Date</label>
+        <div class="date-input-wrapper">
+          <input type="date" [(ngModel)]="viewDate">
+        </div>
+        <button class="submit-btn toppad" (click)="fetchvalues()">Fetch</button>
+        <h3>Summary</h3>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (entry of existingEntries; track entry.status) {
+                    <tr>
+                        <td class="status-label">{{ entry.status }}</td>
+                        <td class="count-value">{{ entry.total }}</td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td colspan="2">No data found for this period.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr/>
+        <h3>Absent Dates</h3>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (entry of absentDays; track entry.date) {
+                    <tr>
+                        <td class="status-label">{{ formatForDisplay(entry.date) }}</td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td class="empty-state">No absent records found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr/>
+        <h3>Present Dates</h3>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (entry of presentDays; track entry.date) {
+                    <tr>
+                        <td class="status-label">{{ formatForDisplay(entry.date) }}</td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td class="empty-state">No present records found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </div>
+        
+      </div>
+
+  </div>
+</div>

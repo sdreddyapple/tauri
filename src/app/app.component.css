@@ -1,0 +1,139 @@
+:host {
+  --primary-blue: #005fb8; /* Deep Microsoft Modern Blue */
+  --hover-blue: #004a8f;
+  --bg-light: #f8fafc;
+  --text-white: #ffffff;
+  --sidebar-width: 200px;
+}
+
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--bg-light);
+}
+
+/* Sidebar Styling */
+.main-sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--primary-blue);
+  color: var(--text-white);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Logo Section */
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px 32px 12px;
+}
+
+.logo-circle {
+  background: rgba(255, 255, 255, 0.2);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.logo-text h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.logo-text p {
+  font-size: 0.65rem;
+  margin: 0;
+  opacity: 0.7;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Navigation Items */
+.nav-list {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: var(--hover-blue);
+  color: white;
+}
+
+/* Active State - High Contrast Pill */
+.active-link {
+  background-color: white !important;
+  color: var(--primary-blue) !important;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 16px 0;
+}
+
+/* User Profile Footer */
+.sidebar-bottom {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+}
+
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  color: var(--primary-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.profile-name { font-size: 0.85rem; font-weight: 600; display: block; }
+.profile-role { font-size: 0.7rem; opacity: 0.7; display: block; }
+
+/* Viewport Area */
+.main-viewport {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
